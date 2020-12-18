@@ -1,0 +1,25 @@
+{
+  "name": "tardigrade",
+  "version": "0.1.0",
+  "description": "Create docker-compose dynamically using Javascript",
+  "main": "lib/index.js",
+  "repository": "https://github.com/raitucarp/tardigrade.git",
+  "author": "Ribhararnus Pracutiar <ribhararnus.pracutiar@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "load-schema": "curl https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json | json2ts > ./src/compose.schema.d.ts"
+  },
+  "dependencies": {
+    "@chialab/schema-model": "^1.3.4",
+    "js-yaml": "^3.14.1",
+    "json-schema-to-typescript": "^10.0.0",
+    "lodash": "^4.17.20"
+  },
+  "devDependencies": {
+    "@types/": "chialab/schema-model",
+    "@types/js-yaml": "^3.12.5",
+    "@types/lodash": "^4.14.165",
+    "type-fest": "^0.20.2"
+  }
+}
