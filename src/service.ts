@@ -1,4 +1,5 @@
 import {
+  DefinitionsHealthcheck,
   DefinitionsService,
   ListOfStrings,
   ListOrDict,
@@ -71,6 +72,47 @@ class BuildService
   }
 }
 
+type DefinitionServiceConfig = Exclude<
+  NonNullable<DefinitionsService["configs"]>[0],
+  string
+>;
+
+type ServiceConfigsType = {
+  [K in keyof DefinitionServiceConfig]: DefinitionServiceConfig[K];
+};
+class ServiceConfig
+  extends Scope<ServiceConfigsType>
+  implements DefinitionToImplementionType<ServiceConfigsType, ServiceConfig> {
+  constructor() {
+    super();
+  }
+
+  gid(id: string): ServiceConfig {
+    this.props.gid = id;
+    return this;
+  }
+
+  mode(mode: number): ServiceConfig {
+    this.props.mode = mode;
+    return this;
+  }
+
+  uid(id: string): ServiceConfig {
+    this.props.uid = id;
+    return this;
+  }
+
+  source(src: string): ServiceConfig {
+    this.props.source = src;
+    return this;
+  }
+
+  target(target: string): ServiceConfig {
+    this.props.target = target;
+    return this;
+  }
+}
+
 type ServiceDefinition = NonNullable<DefinitionsService>;
 
 class Service
@@ -100,263 +142,277 @@ class Service
     return this;
   }
 
-  blkioConfig(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
-    return this;
-  }
-  cgroupParent(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
-    return this;
-  }
-  configs(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
-    return this;
-  }
-  containerName(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
-    return this;
-  }
-  cpuCount(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
-    return this;
-  }
-  cpuPercent(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  blkioConfig(
+    blkioConfig: NonNullable<DefinitionsService["blkio_config"]>
+  ): Service {
+    this.props.blkio_config = blkioConfig;
     return this;
   }
 
-  cpuPeriod(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  cgroupParent(parent: string): Service {
+    this.props.cgroup_parent = parent;
     return this;
   }
 
-  cpuQuota(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  configs(config: (string | ServiceConfigsType)[]): Service {
+    this.props.configs = config;
     return this;
   }
 
-  cpuRtPeriod(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  containerName(name: string): Service {
+    this.props.container_name = name;
     return this;
   }
 
-  cpuRtRuntime(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  cpuCount(count: number): Service {
+    this.props.cpu_count = count;
     return this;
   }
 
-  cpuShares(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  cpuPercent(percentage: number): Service {
+    this.props.cpu_percent = percentage;
     return this;
   }
 
-  cpus(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  cpuPeriod(period: string | number): Service {
+    this.props.cpu_period = period;
     return this;
   }
 
-  cpuset(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  cpuQuota(quota: string | number): Service {
+    this.props.cpu_quota = quota;
     return this;
   }
 
-  credentialSpec(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  cpuRtPeriod(rtPeriod: string | number): Service {
+    this.props.cpu_rt_period = rtPeriod;
     return this;
   }
 
-  dependsOn(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  cpuRtRuntime(rtRuntime: string | number): Service {
+    this.props.cpu_rt_runtime = rtRuntime;
     return this;
   }
 
-  deploy(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  cpuShares(share: string | number): Service {
+    this.props.cpu_shares = share;
     return this;
   }
 
-  deviceCgroupRules(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  // @deprecated
+  cpus(vcpu: string | number): Service {
+    this.props.cpus = vcpu;
     return this;
   }
 
-  devices(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  cpuset(cpuNumber: string): Service {
+    this.props.cpuset = cpuNumber;
     return this;
   }
 
-  dns(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  credentialSpec(
+    spec: NonNullable<DefinitionsService["credential_spec"]>
+  ): Service {
+    this.props.credential_spec = spec;
     return this;
   }
 
-  dnsOpt(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  dependsOn(services: NonNullable<DefinitionsService["depends_on"]>): Service {
+    this.props.depends_on = services;
     return this;
   }
 
-  dnsSearch(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  deploy(deployConfig: NonNullable<DefinitionsService["deploy"]>): Service {
+    this.props.deploy = deployConfig;
     return this;
   }
 
-  domainname(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  deviceCgroupRules(rules: string[]): Service {
+    this.props.device_cgroup_rules = rules;
     return this;
   }
 
-  entrypoint(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  devices(customDevices: string[]): Service {
+    this.props.devices = customDevices;
     return this;
   }
 
-  envFile(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  dns(customDns: string | string[]): Service {
+    this.props.dns = customDns;
     return this;
   }
 
-  environment(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  dnsOpt(customDns: string[]): Service {
+    this.props.dns_opt = customDns;
     return this;
   }
 
-  expose(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  dnsSearch(domains: string | string[]): Service {
+    this.props.dns_search = domains;
     return this;
   }
 
-  extends(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  domainname(name: string): Service {
+    this.props.domainname = name;
     return this;
   }
 
-  externalLinks(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  entrypoint(paths: string | string[]): Service {
+    this.props.entrypoint = paths;
     return this;
   }
 
-  extraHosts(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  envFile(paths: string | string[]): Service {
+    this.props.env_file = paths;
     return this;
   }
 
-  groupAdd(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  environment(
+    envKeyValues: NonNullable<DefinitionsService["environment"]>
+  ): Service {
+    this.props.environment = envKeyValues;
     return this;
   }
 
-  healthcheck(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  expose(ports: (string | number)[]): Service {
+    this.props.expose = ports;
     return this;
   }
 
-  hostname(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  extends(
+    anotherServices: NonNullable<DefinitionsService["extends"]>
+  ): Service {
+    this.props.extends = anotherServices;
     return this;
   }
 
-  image(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  externalLinks(links: string[]): Service {
+    this.props.external_links = links;
     return this;
   }
 
-  init(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  extraHosts(hosts: NonNullable<DefinitionsService["extra_hosts"]>): Service {
+    this.props.extra_hosts = hosts;
     return this;
   }
 
-  ipc(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  groupAdd(groupName: (string | number)[]): Service {
+    this.props.group_add = groupName;
     return this;
   }
 
-  isolation(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  healthcheck(healthCheckDefinition: DefinitionsHealthcheck): Service {
+    this.props.healthcheck = healthCheckDefinition;
     return this;
   }
 
-  labels(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  hostname(name: string): Service {
+    this.props.hostname = name;
     return this;
   }
 
-  links(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  image(imageName: string): Service {
+    this.props.image = imageName;
     return this;
   }
 
-  logging(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  init(enable: boolean): Service {
+    this.props.init = enable;
     return this;
   }
 
-  macAddress(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  ipc(mode: string): Service {
+    this.props.ipc = mode;
     return this;
   }
 
-  memLimit(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  isolation(_isolation: string): Service {
+    this.props.isolation = _isolation;
     return this;
   }
 
-  memReservation(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  labels(_labels: NonNullable<DefinitionsService["labels"]>): Service {
+    this.props.labels = _labels;
     return this;
   }
 
-  memSwappiness(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  links(_links: string[]): Service {
+    this.props.links = _links;
     return this;
   }
 
-  memswapLimit(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  logging(loggingConfig: NonNullable<DefinitionsService["logging"]>): Service {
+    this.props.logging = loggingConfig;
     return this;
   }
 
-  networkMode(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  macAddress(address: string): Service {
+    this.props.mac_address = address;
     return this;
   }
 
-  networks(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  memLimit(limit: string | number): Service {
+    this.props.mem_limit = limit;
     return this;
   }
 
-  oomKillDisable(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  memReservation(reservation: number | string): Service {
+    this.props.mem_reservation = reservation;
     return this;
   }
 
-  oomScoreAdj(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  memSwappiness(swappiness: number): Service {
+    this.props.mem_swappiness = swappiness;
     return this;
   }
 
-  pid(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  memswapLimit(limit: string | number): Service {
+    this.props.memswap_limit = limit;
     return this;
   }
 
-  pidsLimit(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  networkMode(mode: string): Service {
+    this.props.network_mode = mode;
     return this;
   }
 
-  platform(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  networks(_networks: DefinitionsService["networks"]): Service {
+    this.props.networks = _networks;
     return this;
   }
 
-  ports(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  oomKillDisable(isDisable: boolean): Service {
+    this.props.oom_kill_disable = isDisable;
     return this;
   }
 
-  privileged(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  oomScoreAdj(adjustment: number): Service {
+    this.props.oom_score_adj = adjustment;
+    return this;
+  }
+
+  pid(_pid: string): Service {
+    this.props.pid = _pid;
+    return this;
+  }
+
+  pidsLimit(limit: string | number): Service {
+    this.props.pids_limit = limit;
+    return this;
+  }
+
+  platform(_platform: string): Service {
+    this.props.platform = _platform;
+    return this;
+  }
+
+  ports(ports: DefinitionsService["ports"]): Service {
+    this.props.ports = ports;
+    return this;
+  }
+
+  privileged(isPrivileged: boolean): Service {
+    this.props.privileged = isPrivileged;
     return this;
   }
 
@@ -365,33 +421,33 @@ class Service
     return this;
   }
 
-  pullPolicy(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  pullPolicy(policy: DefinitionsService["pull_policy"]): Service {
+    this.props.pull_policy = policy;
     return this;
   }
 
-  readOnly(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  readOnly(isReadOnly: boolean): Service {
+    this.props.read_only = isReadOnly;
     return this;
   }
 
-  restart(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  restart(restartOpts: string): Service {
+    this.props.restart = restartOpts;
     return this;
   }
 
-  runtime(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  runtime(runtimeName: string): Service {
+    this.props.runtime = runtimeName;
     return this;
   }
 
-  scale(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  scale(scaleNumber: number): Service {
+    this.props.scale = scaleNumber;
     return this;
   }
 
-  secrets(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  secrets(secret: NonNullable<DefinitionsService["secrets"]>): Service {
+    this.props.secrets = secret;
     return this;
   }
 
@@ -400,57 +456,58 @@ class Service
     return this;
   }
 
-  shmSize(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  shmSize(size: string | number): Service {
+    this.props.shm_size = size;
     return this;
   }
 
-  stdinOpen(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  stdinOpen(useStdin: boolean): Service {
+    this.props.stdin_open = useStdin;
     return this;
   }
 
-  stopGracePeriod(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  stopGracePeriod(period: string): Service {
+    this.props.stop_grace_period = period;
     return this;
   }
 
-  stopSignal(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  stopSignal(signal: string): Service {
+    this.props.stop_signal = signal;
     return this;
   }
 
-  sysctls(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  sysctls(kernelParams: NonNullable<DefinitionsService["sysctls"]>): Service {
+    this.props.sysctls = kernelParams;
     return this;
   }
 
-  tmpfs(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  tmpfs(paths: string | string[]): Service {
+    this.props.tmpfs = paths;
     return this;
   }
 
-  tty(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  tty(useTTY: boolean): Service {
+    this.props.tty = useTTY;
     return this;
   }
 
-  ulimits(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  ulimits(limit: NonNullable<DefinitionsService["ulimits"]>): Service {
+    this.props.ulimits = limit;
     return this;
   }
 
-  user(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  user(user: string): Service {
+    this.props.user = user;
     return this;
   }
 
-  usernsMode(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  usernsMode(mode: string): Service {
+    this.props.userns_mode = mode;
     return this;
   }
-  volumes(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+
+  volumes(volumeSpec: NonNullable<DefinitionsService["volumes"]>): Service {
+    this.props.volumes = volumeSpec;
     return this;
   }
 
@@ -459,8 +516,8 @@ class Service
     return this;
   }
 
-  workingDir(capabilities: string[]): Service {
-    this.props.cap_drop = capabilities;
+  workingDir(dir: string): Service {
+    this.props.working_dir = dir;
     return this;
   }
 }
